@@ -1,0 +1,17 @@
+{
+  "tool": "muse-protocol-flow-audit",
+  "upstream": "duwqijlk/muse-protocol",
+  "input": "examples/in/flow-clean.jsonl",
+  "fail_on": "error",
+  "today": "2026-11-18",
+  "summary": {
+    "counts": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "triggered": 0,
+    "status": "pass"
+  },
+  "findings": []
+}

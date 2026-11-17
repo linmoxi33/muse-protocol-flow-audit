@@ -1,0 +1,124 @@
+{
+  "tool": "muse-protocol-flow-audit",
+  "upstream": "duwqijlk/muse-protocol",
+  "input": "examples/in/flow-broken.jsonl",
+  "fail_on": "error",
+  "today": "2026-11-18",
+  "summary": {
+    "counts": {
+      "error": 8,
+      "warning": 1,
+      "info": 0
+    },
+    "triggered": 8,
+    "status": "fail"
+  },
+  "findings": [
+    {
+      "rule": "CONFIRM_OTP_FIELD",
+      "severity": "error",
+      "index": 3,
+      "step": "confirm_otp",
+      "message": "confirm-otp must send supports_muse_link_transparency: true",
+      "witness": {
+        "value": null
+      }
+    },
+    {
+      "rule": "DOB_AGE_GATE",
+      "severity": "error",
+      "index": 4,
+      "step": "register_completion",
+      "message": "date_of_birth implies age 13 < 18; upstream documents a 403 for this case",
+      "witness": {
+        "date_of_birth": "2013-11-14",
+        "age": 13
+      }
+    },
+    {
+      "rule": "ACCEPT_TOS_HARDCODED",
+      "severity": "error",
+      "index": 6,
+      "step": "accept_tos",
+      "message": "accept-tos used the hard-coded disclosure text; the README requires the server-dynamic text",
+      "witness": {
+        "disclosure_version": "HATCH_ROW_v1"
+      }
+    },
+    {
+      "rule": "DISCLOSURE_VERSION",
+      "severity": "error",
+      "index": 6,
+      "step": "accept_tos",
+      "message": "disclosure_version must be HATCH_ROW_v0; upstream refuses to guess unknown versions",
+      "witness": {
+        "disclosure_version": "HATCH_ROW_v1"
+      }
+    },
+    {
+      "rule": "VM_WAKE_BODY",
+      "severity": "error",
+      "index": 8,
+      "step": "vm_wake",
+      "message": "vm/wake body is not the documented mount payload: wake_trigger != 'mount'; away_ms != 0",
+      "witness": {
+        "body": {
+          "vm_id": "11111111-1111-1111-1111-111111111111",
+          "retry_count": 0,
+          "connect_attempt_id": "22222222-2222-2222-2222-222222222222",
+          "wake_trigger": "resume",
+          "open_id": "33333333-3333-3333-3333-333333333333"
+        }
+      }
+    },
+    {
+      "rule": "TOS_VERSION_FLOW",
+      "severity": "error",
+      "index": 4,
+      "step": "register_completion",
+      "message": "register-completion sent a tos_content_version that differs from the one confirm-otp returned",
+      "witness": {
+        "confirm_otp": "ntm_create_account:default_v1_meta_account_v3+docs_v2-OLD",
+        "register_completion": "ntm_create_account:default_v1_meta_account_v3+docs_v2"
+      }
+    },
+    {
+      "rule": "DISCLOSURE_FLOW",
+      "severity": "error",
+      "index": 6,
+      "step": "accept_tos",
+      "message": "accept-tos disclosure_text differs from the value parsed out of the bootstrap document",
+      "witness": {
+        "bootstrap": "次に進むことで、Muse利用規約およびMetaのAI利用規約に同意するものとします。これには利用者の権利と責任に関する重要な情報が含まれています。プライバシーに",
+        "accept_tos": "次に進むことで、Muse利用規約およびMetaのAI利用規約に同意するものとします。これには利用者の権利と責任に関する重要な情報が含まれています。プライバシーに"
+      }
+    },
+    {
+      "rule": "DISCLOSURE_VERSION_FLOW",
+      "severity": "error",
+      "index": 6,
+      "step": "accept_tos",
+      "message": "accept-tos disclosure_version differs from the bootstrap document's disclosureVersion",
+      "witness": {
+        "bootstrap": "HATCH_ROW_v0",
+        "accept_tos": "HATCH_ROW_v1"
+      }
+    },
+    {
+      "rule": "REDEEM_REASON",
+      "severity": "warning",
+      "index": 10,
+      "step": "redeem",
+      "message": "redeem reason 'expired' is outside the documented vocabulary",
+      "witness": {
+        "reason": "expired",
+        "vocabulary": [
+          "already_redeemed",
+          "invalid",
+          "redeemed",
+          "used_up"
+        ]
+      }
+    }
+  ]
+}
